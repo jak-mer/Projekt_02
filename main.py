@@ -11,7 +11,7 @@ import random
 ###################### Funkce POZDRAV:
 def pozdrav():
     """
-    Funkce pozdraví uživatele.
+    Funkce pozdraví uživatele a řekne mu, co má dělat.
     """
     print(
 """
@@ -19,7 +19,8 @@ Hi there!
 -----------------------------------------------
 I've generated a random 4 digit number for you.
 Let's play a bulls and cows game.
------------------------------------------------"""
+-----------------------------------------------
+Enter a number:"""
     )
 
 
@@ -33,8 +34,12 @@ def generuj_cislo():
         cislice = random.sample(range(10), 4) # Fce random.sample generuje 4 unikátní číslice z rozsahu 0-9. Vytvoří list.
         if cislice[0] != 0: # Když se první číslice listu nerovná 0, tak vrať ...
             return int("".join(map(str, cislice))) # ... převede list na číslo a vrátí ho. 
+        
+# Funkce map v Pythonu aplikuje zadanou funkci na každý prvek z iterovatelného objektu.
+# Metoda "".join() v Pythonu spojí prvky iterovatelného objektu (například seznam řetězců) do jednoho řetězce.
+# Funkce int() převede řetězec na celé číslo.
 
-"""
+""" Převedení listu na číslo pomocí smyčky for nebo list comprehension:
 POMOCÍ SMYČKY FOR:
 cislo_str = ""
 for cifra in cislice:
@@ -45,11 +50,6 @@ POMOCÍ LIST COMPREHENSION:
 cislo_str = "".join([str(cifra) for cifra in cislice])
 return int(cislo_str)
 """
-        
-# Funkce map v Pythonu aplikuje zadanou funkci na každý prvek z iterovatelného objektu.
-# Metoda "".join() v Pythonu spojí prvky iterovatelného objektu (například seznam řetězců) do jednoho řetězce.
-# Funkce int() převede řetězec na celé číslo.
-
 
 ###################### Funkce ZADEJ ČÍSLO:
 def zadej_cislo():
@@ -58,7 +58,7 @@ def zadej_cislo():
     """
     while True: # Nekonečná smyčka pojede dokud uživatel nezadá číslo, které splňuje podmínky.
         try: # Zde je použitý try-except blok pro zachycení chyb.
-            user_input = input("Enter a number: ")
+            user_input = input(">>> ")
             if len(user_input) != 4:
                 print("The number must have 4 digits.")
             elif user_input[0] == "0":
@@ -81,8 +81,8 @@ def porovnej_cisla(vygenerovane_cislo, hadane_cislo):
     cows = 0
 
     # Převod čísel na seznam číslic
-    vygenerovane_cislo_list = [int(i) for i in str(vygenerovane_cislo)] # list comprehension
-    hadane_cislo_list = [int(i) for i in str(hadane_cislo)] # list comprehension
+    vygenerovane_cislo_list = [int(cislice) for cislice in str(vygenerovane_cislo)] # list comprehension
+    hadane_cislo_list = [int(cislice) for cislice in str(hadane_cislo)] # list comprehension
 
     # Porovnání čísel
     for i in range(4):
@@ -102,11 +102,12 @@ def hlavni():
     pokusy = 0 # Tady si vytvořím proměnnou pokusy, která bude počítat kolik pokusů uživatel udělal.
 
     while bulls != 4: # Smyčka pojede dokud se bulls nerovná 4.
+        print("-----------------------------------------------")
         hadane_cislo = zadej_cislo() # Tady volám funkci zadej_cislo, která vyzve uživatele k zadání čísla a uloží ho do proměnné hadane_cislo.
         bulls, cows = porovnej_cisla(vygenerovane_cislo, hadane_cislo) # Tady si do proměnných bulls a cows uložím hodnoty, které vrátí funkce porovnej_cisla.
         pokusy += 1 # Tady si přičítám 1 k počtu pokusů.
-        print(f"{bulls} bulls, {cows} cows") # Tady vypíšu počet bulls a cows.
-        print("-----------------------------------------------")
+        print(f"{bulls} {'bull' if bulls == 1 else 'bulls'}, {cows} {'cow' if cows == 1 else 'cows'}") # Tady vypíšu počet bulls a cows.
+
     print(f"Correct, you've guessed the right number in {pokusy} guesses!")
 
 ########################################################### HLAVNÍ FUNKCE PROGRAMU
