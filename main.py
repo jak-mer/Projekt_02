@@ -6,7 +6,9 @@ email: merta.arch@gmail.com
 """
 # Import knihoven:
 import random
+import time
 
+statistiky = []
 
 ###################### Funkce POZDRAV:
 def pozdrav():
@@ -100,7 +102,9 @@ def hlavni():
     bulls = 0 # Tady si vytvořím proměnnou bulls, která bude počítat kolik je bulls.
     cows = 0 # Tady si vytvořím proměnnou cows, která bude počítat kolik je cows.
     pokusy = 0 # Tady si vytvořím proměnnou pokusy, která bude počítat kolik pokusů uživatel udělal.
-
+    
+    pocatecni_cas = time.time()  # Zaznamenání začátku
+  
     while bulls != 4: # Smyčka pojede dokud se bulls nerovná 4.
         print("-----------------------------------------------")
         hadane_cislo = zadej_cislo() # Tady volám funkci zadej_cislo, která vyzve uživatele k zadání čísla a uloží ho do proměnné hadane_cislo.
@@ -108,10 +112,28 @@ def hlavni():
         pokusy += 1 # Tady si přičítám 1 k počtu pokusů.
         print(f"{bulls} {'bull' if bulls == 1 else 'bulls'}, {cows} {'cow' if cows == 1 else 'cows'}") # Tady vypíšu počet bulls a cows.
 
-    print(f"Correct, you've guessed the right number in {pokusy} guesses!")
+    koncovy_cas = time.time()  # Zaznamenání konce
+    trvani = koncovy_cas - pocatecni_cas # Výpočet doby trvání 
 
+    statistiky.append({
+        "pokusy": pokusy,
+        "cas": trvani
+})
+
+    print(f"Correct, you've guessed the right number in {pokusy} guesses!")
+    print(f"Time elapsed: {trvani:.1f} seconds")
+
+    
 ########################################################### HLAVNÍ FUNKCE PROGRAMU
-if __name__ == "__main__":
-    hlavni()
+if __name__ == "__main__": # Podmínka, která zaručí, že se kód spustí pouze pokud je tento soubor spuštěn jako hlavní program.
+    while True: # Nekonečná smyčka pro opakování hry, dokud nenarazí na break.
+        hlavni() # Volání funkce hlavni, která spustí hru.
+        dalsi_hra = input("Do you want to play again? (yes/no): ") # Tady se ptám uživatele, jestli chce hrát znovu.
+        if dalsi_hra.lower() != "yes": # Pokud uživatel nezadá "yes", tak se hra ukončí.
+            break
+
+    print("Game statistics:") # Pak to pokračuje vypisem statistik.
+    for poradi_hry, hra in enumerate(statistiky, 1): # Vytvořím si očíslovaný seznam statistik.
+        print(f"Game {poradi_hry}: {hra['pokusy']} guesses, {hra['cas']:.1f} seconds") # Vytisknu počet pokusů a čas hry.
 ########################################################### HLAVNÍ FUNKCE PROGRAMU
 
