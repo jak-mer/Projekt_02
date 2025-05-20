@@ -59,7 +59,7 @@ def zadej_cislo():
     Funkce vyzve uživatele k zadání 4místného čísla.
     """
     while True: # Nekonečná smyčka pojede dokud uživatel nezadá číslo, které splňuje podmínky.
-        try: # Zde je použitý try-except blok pro zachycení chyb.
+        try: # Zde je použitý try-except blok pro zachycení výjimek. Možná není nutný a trošku předbíhám, ale pro jistotu.
             user_input = input(">>> ")
             if len(user_input) != 4:
                 print("The number must have 4 digits.")
@@ -109,8 +109,8 @@ def hlavni():
         print("-----------------------------------------------")
         hadane_cislo = zadej_cislo() # Tady volám funkci zadej_cislo, která vyzve uživatele k zadání čísla a uloží ho do proměnné hadane_cislo.
         bulls, cows = porovnej_cisla(vygenerovane_cislo, hadane_cislo) # Tady si do proměnných bulls a cows uložím hodnoty, které vrátí funkce porovnej_cisla.
-        pokusy += 1 # Tady si přičítám 1 k počtu pokusů.
-        print(f"{bulls} {'bull' if bulls == 1 else 'bulls'}, {cows} {'cow' if cows == 1 else 'cows'}") # Tady vypíšu počet bulls a cows.
+        pokusy += 1 # Tady si přičítám 1 k počtu pokusů pomocí zkráceného zápisu.
+        print(f"{bulls} {'bull' if bulls == 1 else 'bulls'}, {cows} {'cow' if cows == 1 else 'cows'}") # Tady vypíšu počet bulls a cows, pomocí ternárního operátoru.
 
     koncovy_cas = time.time()  # Zaznamenání konce
     trvani = koncovy_cas - pocatecni_cas # Výpočet doby trvání 
